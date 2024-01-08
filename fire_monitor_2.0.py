@@ -53,8 +53,8 @@ st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-
 
 # Load the model
 model_filename = "mobilenetV2_P150623.h5"
-model_path = os.path.join(os.getcwd(), model_filename)
-st.write(f"Model Path: {model_path}")  # Add this line to print the model path
+# model_path = os.path.join(os.getcwd(), model_filename)
+# st.write(f"Model Path: {model_path}")  # Add this line to print the model path
 model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
 # model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
 # Preprocess input image
