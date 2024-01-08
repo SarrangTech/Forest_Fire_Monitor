@@ -10,6 +10,7 @@ import os
 import time
 from tempfile import NamedTemporaryFile
 
+disable_alarm_button = st.button('Disable Alarm')
 # from aboutme import show_about_me
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 st.set_page_config(page_icon="fire_favicon.ico")
