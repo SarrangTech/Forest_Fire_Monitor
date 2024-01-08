@@ -135,10 +135,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
-        # ...
-    
-    # Save the uploaded file to a temporary location
     uploads_dir = 'uploads'
     os.makedirs(uploads_dir, exist_ok=True)  # Create the directory if it doesn't exist
     
@@ -155,14 +151,9 @@ def main():
     predicted_class, confidence = make_prediction(filename)
     
     # ...
-
-
-
-    
-        if predicted_class == 'fire':
-            # HTML code for blinking effect
-            st.markdown('<style>@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }</style>', unsafe_allow_html=True)
-            st.markdown('<p style="text-align: center; color: red; font-size: 24px; animation: blink 1s linear infinite;">FIRE DETECTED!</p>', unsafe_allow_html=True)
+    if predicted_class == 'fire':
+        st.markdown('<style>@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }</style>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align: center; color: red; font-size: 24px; animation: blink 1s linear infinite;">FIRE DETECTED!</p>', unsafe_allow_html=True)
 
         # Display the result
         st.subheader('Result')
@@ -171,19 +162,18 @@ def main():
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
         # Display predicted class and confidence
-        if predicted_class == 'fire':
-            st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
+    if predicted_class == 'fire':
+        st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="confidence">Confidence: {confidence:.2f}%</p>', unsafe_allow_html=True)
-
-        if predicted_class == 'fire':
+    if predicted_class == 'fire':
             # Play alarm sound
-            play_alarm()
+        play_alarm()
 
-            # Add a button to disable the alarm
-            if st.button('Disable Alarm'):
-                pygame.mixer.music.stop()
+            # Add a button to disable the alarm            
+        if st.button('Disable Alarm'):
+        pygame.mixer.music.stop()
 
 if __name__ == '__main__':
     main()
