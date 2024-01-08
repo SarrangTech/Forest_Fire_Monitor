@@ -173,7 +173,7 @@ def main():
 
             # Add a button to disable the alarm            
         if st.button('Disable Alarm'):
-        pygame.mixer.music.stop()
+            pygame.mixer.music.stop()
 
 if __name__ == '__main__':
     main()
