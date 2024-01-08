@@ -137,12 +137,23 @@ def main():
     )
 
     uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
+    uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
 
     if uploaded_file is not None:
+        # Create the 'uploads' directory if it doesn't exist
+        uploads_dir = 'uploads'
+        os.makedirs(uploads_dir, exist_ok=True)
+
         # Save the uploaded file to a temporary location
-        image_path = 'uploads/' + uploaded_file.name
+        image_path = os.path.join(uploads_dir, uploaded_file.name)
+        st.write(f"Saving file to: {image_path}")  # Add this line to print the file path
         with open(image_path, 'wb') as f:
             f.write(uploaded_file.getbuffer())
+    # if uploaded_file is not None:
+    #     # Save the uploaded file to a temporary location
+    #     image_path = 'uploads/' + uploaded_file.name
+    #     with open(image_path, 'wb') as f:
+    #         f.write(uploaded_file.getbuffer())
 
         # Make prediction
         predicted_class, confidence = make_prediction(image_path)
