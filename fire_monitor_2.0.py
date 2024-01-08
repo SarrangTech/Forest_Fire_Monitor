@@ -216,8 +216,7 @@ def main():
                 # Display the image
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
-        # Display predicted class and confidence
-        if predicted_class == 'fire':
+       if predicted_class == 'fire':
             st.markdown(
                 f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
 
@@ -229,15 +228,12 @@ def main():
                         50% { background-color: white; }
                         100% { background-color: red; }
                     }
-                    .predicted-class-fire {
+                    body {
                         animation: flash 1s infinite;
                     }
                 </style>
             """, unsafe_allow_html=True)
 
-
-        else:
-            st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
     #     # Display predicted class and confidence
     # if predicted_class == 'fire':
     #     st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
