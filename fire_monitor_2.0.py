@@ -86,8 +86,10 @@ def make_prediction(img_path):
 # pygame.mixer.init()
 def play_alarm():
     try:
+        # Initialize pygame.mixer if not already initialized
         if not pygame.mixer.get_init():
             pygame.mixer.init()
+
         pygame.mixer.music.load("Forest_Fire_Monitor/alarm.mp3")
         pygame.mixer.music.play()
     except pygame.error as e:
@@ -159,6 +161,7 @@ def main():
     )
     uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
     
+    
 
     if uploaded_file is not None:
         # Create a temporary file
@@ -167,16 +170,12 @@ def main():
 
         # Get the temporary file path
         image_path = temp_file.name
-
         # Make prediction
-        # predicted_class, confidence = make_prediction(image_path)
-        predicted_class, confidence, play_alarm_flag = make_prediction(image_path)
-        if play_alarm_flag:
+        predicted_class, confidence = make_prediction(image_path)
+
+        if predicted_class == 'fire':
+            # Play alarm sound
             play_alarm()
-    # ...
-    if predicted_class == 'fire':
-        st.markdown('<style>@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }</style>', unsafe_allow_html=True)
-        st.markdown('<p style="text-align: center; color: red; font-size: 24px; animation: blink 1s linear infinite;">FIRE DETECTED!</p>', unsafe_allow_html=True)
 
         # Display the result
         st.subheader('Result')
@@ -184,14 +183,15 @@ def main():
         # Display the image
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
-    # Display predicted class and confidence
+        # Display predicted class and confidence
         if predicted_class == 'fire':
             st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
+            # Add a button to disable the alarm
+            if st.button('Disable Alarm'):
+                pygame.mixer.music.stop()
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-            if play_alarm_flag:
-                if st.button('Disable Alarm'):
-                    pygame.mixer.music.stop()
+
     #     # Display predicted class and confidence
     # if predicted_class == 'fire':
     #     st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
