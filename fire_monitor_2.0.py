@@ -215,8 +215,8 @@ def main():
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
                 # Display the image
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
-
-       if predicted_class == 'fire':
+        
+        if predicted_class == 'fire':
             st.markdown(
                 f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
 
