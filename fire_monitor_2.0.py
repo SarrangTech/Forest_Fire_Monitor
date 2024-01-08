@@ -167,14 +167,12 @@ def main():
 
         # Display predicted class and confidence
         if predicted_class == 'fire':
-            st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
-
             # Display a warning symbol (fire symbol)
-            st.warning("🔥 Fire Detected!")
-
-    if st.button('Disable Alarm'):
-        # Placeholder for alarm disabling functionality
-        pass
+            st.markdown(
+                f'<p class="predicted-class predicted-class-fire" style="font-size: 60px;">🔥 {predicted_class}</p>',
+                unsafe_allow_html=True)
+            # Display a warning message
+            st.warning("Fire Detected!")
 
 if __name__ == '__main__':
     main()
