@@ -195,7 +195,7 @@ def main():
 
         if predicted_class == 'fire':
             # Play alarm sound
-            play_alarm()
+            # play_alarm()
 
         # Display the result
         st.subheader('Result')
