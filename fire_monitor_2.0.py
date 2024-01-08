@@ -6,50 +6,45 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from pydub import AudioSegment
 from pydub.playback import play
 import pygame
-# from aboutme import show_about_me
+import os
 
 st.set_page_config(page_icon="fire_favicon.ico")
 # Add "About Me" sidebar section
-    # Add "About Me" sidebar section
 st.sidebar.title("About Me")
 
-    # Adjust sidebar width
+# Adjust sidebar width
 st.markdown(
-        """
-        <style>
-        .sidebar .sidebar-content {
-            width: 300px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <style>
+    .sidebar .sidebar-content {
+        width: 300px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-    # Customize profile picture size
+# Customize profile picture size
 st.markdown(
-        """
-        <style>
-        .profile-pic {
-            display: block;
-            margin: 0 auto;
-            width: 150px;
-            border-radius: 50%;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-st.sidebar.image("your_profile_picture.jpg", use_column_width=True,
-                     output_format='PNG')
-
-st.sidebar.write("Hi! im Sarang, the creator of this forest fire detection system. Im glad that your finding this application useful, If you have any questions or would like to connect, feel free to reach out to me.")
-st.sidebar.write("Email: bathalapalli9920@gmail.com")
-st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-8b5b20217/), [Instagram](https://www.instagram.com/sarrang9/)")
+    """
+    <style>
+    .profile-pic {
+        display: block;
+        margin: 0 auto;
+        width: 150px;
+        border-radius: 50%;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Load the model
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
-model = tf.keras.models.load_model("C:\\Users\\Sarrang\\Desktop\\fire_2.0\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
+model_filename = "mobilenetV2_P150623.h5"  # Change this if the model file is in a different directory
+model_path = os.path.join(os.getcwd(), model_filename)
+model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
+
 # Preprocess input image
 def preprocess_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
@@ -70,7 +65,9 @@ def make_prediction(img_path):
 
 def play_alarm():
     pygame.mixer.init()
-    pygame.mixer.music.load("C:\\Users\\Sarrang\\Desktop\\fire_2.0\\alarm.mp3")
+    alarm_filename = "alarm.mp3"  # Change this if the audio file is in a different directory
+    alarm_path = os.path.join(os.getcwd(), alarm_filename)
+    pygame.mixer.music.load(alarm_path)
     pygame.mixer.music.play()
 
 def main():
