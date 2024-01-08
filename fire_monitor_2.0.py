@@ -49,12 +49,10 @@ st.sidebar.write("Email: bathalapalli9920@gmail.com")
 st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-8b5b20217/), [Instagram](https://www.instagram.com/sarrang9/)")
 
 # Load the model
-custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 model_filename = "mobilenetV2_P150623.h5"
-model_path = os.path.join("Forest_Fire_Monitor", model_filename)
-st.write(f"Model Path: {model_path}")
+model_path = os.path.join(os.getcwd(), model_filename)
+st.write(f"Model Path: {model_path}")  # Add this line to print the model path
 model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
-
 # model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
 # Preprocess input image
 def preprocess_image(img_path):
