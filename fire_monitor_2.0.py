@@ -7,6 +7,9 @@ from pydub import AudioSegment
 from pydub.playback import play
 import pygame
 import os
+import time
+from tempfile import NamedTemporaryFile
+
 # from aboutme import show_about_me
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 st.set_page_config(page_icon="fire_favicon.ico")
@@ -135,21 +138,18 @@ def main():
         """,
         unsafe_allow_html=True
     )
-    uploads_dir = 'uploads'
-    os.makedirs(uploads_dir, exist_ok=True)  # Create the directory if it doesn't exist
-    # ...
+    uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
 
-    # Generate a unique filename based on the current timestamp
-    timestamp = int(time.time())
-    filename = f"uploaded_image_{timestamp}.png"
-    
-    # Open the file in 'wb' mode to write binary data
-    with open(filename, 'wb') as f:
-        f.write(uploaded_file.getbuffer())
-    
+    if uploaded_file is not None:
+        # Create a temporary file
+        with NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
+            temp_file.write(uploaded_file.getvalue())
 
-    # Make prediction
-    predicted_class, confidence = make_prediction(filename)
+        # Get the temporary file path
+        image_path = temp_file.name
+
+        # Make prediction
+        predicted_class, confidence = make_prediction(image_path)
     
     # ...
     if predicted_class == 'fire':
