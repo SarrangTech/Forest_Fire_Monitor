@@ -136,30 +136,29 @@ def main():
         unsafe_allow_html=True
     )
 
+        # ...
+    
+    # Save the uploaded file to a temporary location
+    uploads_dir = 'uploads'
+    os.makedirs(uploads_dir, exist_ok=True)  # Create the directory if it doesn't exist
+    
+    # Get the filename from the path
+    filename = os.path.join(uploads_dir, uploaded_file.name)
+    
+    # Open the file in 'wb' mode to write binary data
+    with open(filename, 'wb') as f:
+        f.write(uploaded_file.getbuffer())
+    
+    # ...
+    
+    # Make prediction
+    predicted_class, confidence = make_prediction(filename)
+    
+    # ...
+
+
 
     
-    uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
-
-    if uploaded_file is not None:
-        # Create uploads directory if it doesn't exist
-        uploads_dir = 'uploads'
-        if not os.path.exists(uploads_dir):
-            os.makedirs(uploads_dir)
-
-        # Save the uploaded file to the uploads directory
-        image_path = os.path.join(uploads_dir, uploaded_file.name)
-        with open(image_path, 'wb') as f:
-            f.write(uploaded_file.getbuffer())
-            
-    # if uploaded_file is not None:
-    #     # Save the uploaded file to a temporary location
-    #     image_path = 'uploads/' + uploaded_file.name
-    #     with open(image_path, 'wb') as f:
-    #         f.write(uploaded_file.getbuffer())
-
-        # Make prediction
-        predicted_class, confidence = make_prediction(image_path)
-
         if predicted_class == 'fire':
             # HTML code for blinking effect
             st.markdown('<style>@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }</style>', unsafe_allow_html=True)
