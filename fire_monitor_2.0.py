@@ -85,16 +85,36 @@ def make_prediction(img_path):
 
 # Initialize pygame.mixer
 # pygame.mixer.init()
+from io import BytesIO
+
 def play_alarm():
     try:
         # Initialize pygame.mixer if not already initialized
         if not pygame.mixer.get_init():
             pygame.mixer.init()
 
-        pygame.mixer.music.load("Forest_Fire_Monitor/alarm.mp3")
+        alarm_audio_path = "Forest_Fire_Monitor/alarm.mp3"
+        alarm_audio_bytes = open(alarm_audio_path, "rb").read()
+        
+        # Display the audio player
+        st.audio(alarm_audio_bytes, format="audio/mp3")
+
+        # Play the alarm using pygame
+        pygame.mixer.music.load(BytesIO(alarm_audio_bytes))
         pygame.mixer.music.play()
+        
     except pygame.error as e:
         st.warning(f"Error playing alarm: {e}")
+# def play_alarm():
+#     try:
+#         # Initialize pygame.mixer if not already initialized
+#         if not pygame.mixer.get_init():
+#             pygame.mixer.init()
+
+#         pygame.mixer.music.load("Forest_Fire_Monitor/alarm.mp3")
+#         pygame.mixer.music.play()
+#     except pygame.error as e:
+#         st.warning(f"Error playing alarm: {e}")
 
 
 # def play_alarm():
