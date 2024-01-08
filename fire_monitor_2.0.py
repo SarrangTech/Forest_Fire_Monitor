@@ -76,9 +76,20 @@ def make_prediction(img_path):
     return predicted_class, confidence
 
 def play_alarm():
-    pygame.mixer.init()
-    pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
-    pygame.mixer.music.play()
+    try:
+        # Initialize pygame.mixer if not already initialized
+        if not pygame.mixer.get_init():
+            pygame.mixer.init()
+
+        pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
+        pygame.mixer.music.play()
+    except pygame.error as e:
+        st.warning(f"Error playing alarm: {e}")
+
+# def play_alarm():
+#     pygame.mixer.init()
+#     pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
+#     pygame.mixer.music.play()
 
 def main():
 
