@@ -52,6 +52,7 @@ st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 model_filename = "mobilenetV2_P150623.h5"
 model_path = os.path.join("Forest_Fire_Monitor", model_filename)
+st.write(f"Model Path: {model_path}")
 model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
 
 # model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
