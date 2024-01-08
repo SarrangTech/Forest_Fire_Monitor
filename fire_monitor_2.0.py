@@ -6,6 +6,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from pydub import AudioSegment
 from pydub.playback import play
 import pygame
+import os
 # from aboutme import show_about_me
 
 st.set_page_config(page_icon="fire_favicon.ico")
@@ -49,7 +50,11 @@ st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-
 
 # Load the model
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
-model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
+model_filename = "mobilenetV2_P150623.h5"
+model_path = os.path.join("Forest_Fire_Monitor", model_filename)
+model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
+
+# model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
 # Preprocess input image
 def preprocess_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
