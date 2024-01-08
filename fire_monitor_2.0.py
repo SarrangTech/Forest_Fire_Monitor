@@ -77,7 +77,7 @@ def make_prediction(img_path):
 
 
 # Initialize pygame.mixer
-pygame.mixer.init()
+# pygame.mixer.init()
 def play_alarm():
     try:
         # Load the audio file
@@ -85,12 +85,13 @@ def play_alarm():
         audio_bytes = audio_file.read()
 
         # Display the audio player in Streamlit
-        st.audio(audio_bytes, format="audio/mp3", start_time=0)
-
+        st.audio(audio_bytes, format="audio/mp3", start_time=0, autoplay=True)
+        
         # Allow time for the audio to play
         time.sleep(5)
     except Exception as e:
         st.warning(f"Error playing alarm: {e}")
+
 # def play_alarm():
 #     pygame.mixer.init()
 #     pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
