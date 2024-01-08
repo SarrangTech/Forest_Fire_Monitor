@@ -198,7 +198,7 @@ def main():
             # play_alarm()
 
         # Display the result
-        st.subheader('Result')
+    st.subheader('Result')
 
         # Display the image
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
