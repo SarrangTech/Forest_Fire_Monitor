@@ -168,8 +168,7 @@ def main():
         # Make prediction
         # predicted_class, confidence = make_prediction(image_path)
         predicted_class, confidence, play_alarm_flag = make_prediction(image_path)
-         if play_alarm_flag:
-            # Play alarm sound and display audio player
+        if play_alarm_flag:
             play_alarm(audio_file)
     
     # ...
