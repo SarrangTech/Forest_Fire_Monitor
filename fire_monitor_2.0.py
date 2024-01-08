@@ -8,7 +8,7 @@ from pydub.playback import play
 import pygame
 import os
 # from aboutme import show_about_me
-
+custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 st.set_page_config(page_icon="fire_favicon.ico")
 # Add "About Me" sidebar section
     # Add "About Me" sidebar section
