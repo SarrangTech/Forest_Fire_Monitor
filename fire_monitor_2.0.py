@@ -158,21 +158,22 @@ def main():
     if uploaded_file is not None:
         with NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file.write(uploaded_file.getvalue())
+
         image_path = temp_file.name
         predicted_class, confidence = make_prediction(image_path)
 
-        # Display the result
-        st.subheader('Result')
-        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
-
-        # Display predicted class and confidence
         if predicted_class == 'fire':
-            # Display a warning symbol (fire symbol)
             st.markdown(
                 f'<p class="predicted-class predicted-class-fire" style="font-size: 60px;">🔥 {predicted_class}</p>',
                 unsafe_allow_html=True)
-            # Display a warning message
             st.warning("Fire Detected!")
+        else:
+            st.markdown(
+                f'<p class="predicted-class predicted-class-no-fire" style="font-size: 60px;">🚫 {predicted_class}</p>',
+                unsafe_allow_html=True)
+
+        st.subheader('Result')
+        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
 if __name__ == '__main__':
     main()
