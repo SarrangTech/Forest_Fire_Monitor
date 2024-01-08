@@ -100,13 +100,11 @@ def play_alarm():
         pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
         # Play the alarm sound
-        pygame.mixer.music.play()
+        # pygame.mixer.music.play()
 
     except pygame.error as e:
         st.warning(f"Error playing alarm: {e}")
 
-# Call the play_alarm function
-play_alarm()
 # def play_alarm():
 #     try:
 #         # Initialize pygame.mixer if not already initialized
