@@ -86,25 +86,27 @@ def make_prediction(img_path):
 # Initialize pygame.mixer
 # pygame.mixer.init()
 from io import BytesIO
-
 def play_alarm():
     try:
         # Initialize pygame.mixer if not already initialized
         if not pygame.mixer.get_init():
             pygame.mixer.init()
 
-        alarm_audio_path = "Forest_Fire_Monitor/alarm.mp3"
-        alarm_audio_bytes = open(alarm_audio_path, "rb").read()
-        
-        # Display the audio player
-        st.audio(alarm_audio_bytes, format="audio/mp3")
+        # Load the alarm sound
+        pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
 
-        # Play the alarm using pygame
-        pygame.mixer.music.load(BytesIO(alarm_audio_bytes))
+        # Specify the desired audio device (replace 'your_audio_device_name')
+        pygame.mixer.music.set_endevent(pygame.USEREVENT)
+        pygame.mixer.music.set_endevent(pygame.USEREVENT)
+
+        # Play the alarm sound
         pygame.mixer.music.play()
-        
+
     except pygame.error as e:
         st.warning(f"Error playing alarm: {e}")
+
+# Call the play_alarm function
+play_alarm()
 # def play_alarm():
 #     try:
 #         # Initialize pygame.mixer if not already initialized
@@ -211,12 +213,7 @@ def main():
             #     pygame.mixer.music.stop()
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-        # Add a button to disable the alarm
-disable_alarm_button = st.button('Disable Alarm')
 
-# Logic to disable the alarm when the button is clicked
-if disable_alarm_button:
-    pygame.mixer.music.stop()
     #     # Display predicted class and confidence
     # if predicted_class == 'fire':
     #     st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
