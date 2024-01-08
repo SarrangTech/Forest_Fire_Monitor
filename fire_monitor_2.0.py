@@ -137,17 +137,16 @@ def main():
     )
     uploads_dir = 'uploads'
     os.makedirs(uploads_dir, exist_ok=True)  # Create the directory if it doesn't exist
-    
-    # Check if the 'uploads' directory exists
-    if not os.path.exists(uploads_dir):
-        os.makedirs(uploads_dir)  # Create the directory if it doesn't exist
-    
-    # Get the filename from the path
-    filename = os.path.join(uploads_dir, uploaded_file.name)
+    # ...
+
+    # Generate a unique filename based on the current timestamp
+    timestamp = int(time.time())
+    filename = f"uploaded_image_{timestamp}.png"
     
     # Open the file in 'wb' mode to write binary data
     with open(filename, 'wb') as f:
         f.write(uploaded_file.getbuffer())
+    
 
     # Make prediction
     predicted_class, confidence = make_prediction(filename)
