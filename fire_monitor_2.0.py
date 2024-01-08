@@ -213,14 +213,7 @@ def main():
             #     pygame.mixer.music.stop()
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-                # Display the image
-        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
-        
         if predicted_class == 'fire':
-            st.markdown(
-                f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
-
-            # Flashing effect for fire detection
             st.markdown("""
                 <style>
                     @keyframes flash {
@@ -228,11 +221,14 @@ def main():
                         50% { background-color: white; }
                         100% { background-color: red; }
                     }
-                    body {
+                    .flash-background {
                         animation: flash 1s infinite;
                     }
                 </style>
+                <div class="flash-background">
             """, unsafe_allow_html=True)
+
+        
 
     #     # Display predicted class and confidence
     # if predicted_class == 'fire':
@@ -241,11 +237,11 @@ def main():
     #     st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
     #     st.markdown(f'<p class="confidence">Confidence: {confidence:.2f}%</p>', unsafe_allow_html=True)
     
-    # if predicted_class == 'fire':
-    #         # Play alarm sound
-    #     play_alarm()
-    if st.button('Disable Alarm'):
-        pygame.mixer.music.stop()
+    # # if predicted_class == 'fire':
+    # #         # Play alarm sound
+    # #     play_alarm()
+    # if st.button('Disable Alarm'):
+    #     pygame.mixer.music.stop()
         
 
 if __name__ == '__main__':
