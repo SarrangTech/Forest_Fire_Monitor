@@ -49,7 +49,7 @@ st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-
 
 # Load the model
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
-model = tf.keras.models.load_model("Forest_Fire_Monitor\mobilenetV2_P150623.h5", custom_objects=custom_objects)
+model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
 # Preprocess input image
 def preprocess_image(img_path):
     img = image.load_img(img_path, target_size=(224, 224))
@@ -70,7 +70,7 @@ def make_prediction(img_path):
 
 def play_alarm():
     pygame.mixer.init()
-    pygame.mixer.music.load("Forest_Fire_Monitor\alarm.mp3")
+    pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
     pygame.mixer.music.play()
 
 def main():
