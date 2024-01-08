@@ -81,24 +81,16 @@ pygame.mixer.init()
 def play_alarm():
     try:
         # Load the audio file
-        pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
-
-        # Play the audio
-        pygame.mixer.music.play()
-
-        # Display the audio player in Streamlit
         audio_file = open("Forest_Fire_Monitor\\alarm.mp3", "rb")
         audio_bytes = audio_file.read()
-        st.audio(audio_bytes, format="audio/mp3")
+
+        # Display the audio player in Streamlit
+        st.audio(audio_bytes, format="audio/mp3", start_time=0)
 
         # Allow time for the audio to play
         time.sleep(5)
-
-        # Stop the audio
-        pygame.mixer.music.stop()
-    except pygame.error as e:
+    except Exception as e:
         st.warning(f"Error playing alarm: {e}")
-
 # def play_alarm():
 #     pygame.mixer.init()
 #     pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
