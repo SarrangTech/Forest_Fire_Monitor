@@ -81,10 +81,20 @@ def play_alarm():
         if not pygame.mixer.get_init():
             pygame.mixer.init()
 
+        # Load the audio file
         pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
+
+        # Play the audio
         pygame.mixer.music.play()
+
+        # Display the audio player in Streamlit
+        audio_file = open("Forest_Fire_Monitor\\alarm.mp3", "rb")
+        audio_bytes = audio_file.read()
+        st.audio(audio_bytes, format="audio/mp3")
     except pygame.error as e:
         st.warning(f"Error playing alarm: {e}")
+
+
 
 # def play_alarm():
 #     pygame.mixer.init()
