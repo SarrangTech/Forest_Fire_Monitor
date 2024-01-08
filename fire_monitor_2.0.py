@@ -213,12 +213,28 @@ def main():
             #     pygame.mixer.music.stop()
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-        if predicted_class == 'fire':
-            st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
+                # Display the image
+        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
-            # Make the screen blink when fire is detected
-            for _ in range(3):
-                st.balloons()
+        # Display predicted class and confidence
+        if predicted_class == 'fire':
+            st.markdown(
+                f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
+
+            # Flashing effect for fire detection
+            st.markdown("""
+                <style>
+                    @keyframes flash {
+                        0% { background-color: red; }
+                        50% { background-color: white; }
+                        100% { background-color: red; }
+                    }
+                    .predicted-class-fire {
+                        animation: flash 1s infinite;
+                    }
+                </style>
+            """, unsafe_allow_html=True)
+
 
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
