@@ -65,7 +65,7 @@ def preprocess_image(img_path):
     - img_path (str): Path to the image file.
 
     Returns:
-    - preprocessed image array.
+    - preprocessed_img (numpy.ndarray): Preprocessed image array.
     """
     img = image.load_img(img_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
@@ -76,14 +76,14 @@ def preprocess_image(img_path):
 # Make individual predictions
 def make_prediction(img_path):
     """
-    Make predictions on the input image.
+    Make predictions for the input image.
 
     Parameters:
     - img_path (str): Path to the image file.
 
     Returns:
-    - predicted_class (str): Predicted class label.
-    - confidence (float): Confidence score.
+    - predicted_class (str): Predicted class ('no fire' or 'fire').
+    - confidence (float): Confidence level of the prediction.
     """
     preprocessed_img = preprocess_image(img_path)
     predictions = model.predict(preprocessed_img)
@@ -92,8 +92,10 @@ def make_prediction(img_path):
     confidence = np.max(predictions) * 100
     return predicted_class, confidence
 
-# Main function
 def main():
+    """
+    Streamlit application main function.
+    """
     st.title('A Deep Learning based approach to detecting forest fires')
 
     # Custom CSS styles for background and text color
@@ -146,11 +148,6 @@ def main():
             width: 200px;
             border-radius: 50%;
         }
-        .leaf-emoji {
-            font-size: 100px;
-            margin-top: 20px;
-            text-align: center;
-        }
         </style>
         """,
         unsafe_allow_html=True
@@ -159,28 +156,24 @@ def main():
     uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
 
     if uploaded_file is not None:
-        # Create a temporary file
         with NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file.write(uploaded_file.getvalue())
 
-        # Get the temporary file path
         image_path = temp_file.name
-
-        # Make prediction
         predicted_class, confidence = make_prediction(image_path)
 
-        # Display the result
-        st.subheader('Result')
-
-        # Display the image
-        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
-
-        # Display predicted class and confidence
         if predicted_class == 'fire':
-            st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
+            st.markdown(
+                f'<p class="predicted-class predicted-class-fire" style="font-size: 60px;">🔥 {predicted_class}</p>',
+                unsafe_allow_html=True)
+            st.warning("Fire Detected!")
         else:
-            st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-            st.markdown('<div class="leaf-emoji">🍃</div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<p class="predicted-class predicted-class-no-fire" style="font-size: 60px;">🍃 {predicted_class}</p>',
+                unsafe_allow_html=True)
+
+        st.subheader('Result')
+        st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
 if __name__ == '__main__':
     main()
