@@ -3,63 +3,70 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from pydub import AudioSegment
-from pydub.playback import play
-import pygame
 import os
-import time
 from tempfile import NamedTemporaryFile
 
-
-# from aboutme import show_about_me
+# Custom objects for loading the model
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
+
+# Set Streamlit page configuration
 st.set_page_config(page_icon="fire_favicon.ico")
-# Add "About Me" sidebar section
-    # Add "About Me" sidebar section
+
+# Sidebar section with "About Me" information
 st.sidebar.title("About Me")
 
-    # Adjust sidebar width
+# Sidebar customization
 st.markdown(
-        """
-        <style>
-        .sidebar .sidebar-content {
-            width: 300px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <style>
+    .sidebar .sidebar-content {
+        width: 300px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-    # Customize profile picture size
+# Profile picture customization
 st.markdown(
-        """
-        <style>
-        .profile-pic {
-            display: block;
-            margin: 0 auto;
-            width: 150px;
-            border-radius: 50%;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <style>
+    .profile-pic {
+        display: block;
+        margin: 0 auto;
+        width: 150px;
+        border-radius: 50%;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-st.sidebar.image("your_profile_picture.jpg", use_column_width=True,
-                     output_format='PNG')
-
-st.sidebar.write("Hi! im Sarang, the creator of this forest fire detection system. Im glad that your finding this application useful, If you have any questions or would like to connect, feel free to reach out to me.")
+# Sidebar content
+st.sidebar.image("your_profile_picture.jpg", use_column_width=True, output_format='PNG')
+st.sidebar.write("Hi! I'm Sarang, the creator of this forest fire detection system. "
+                 "I'm glad that you're finding this application useful. "
+                 "If you have any questions or would like to connect, feel free to reach out to me.")
 st.sidebar.write("Email: bathalapalli9920@gmail.com")
-st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-8b5b20217/), [Instagram](https://www.instagram.com/sarrang9/)")
+st.sidebar.write("Social Media: [LinkedIn](https://www.linkedin.com/in/b-sarang-8b5b20217/), "
+                 "[Instagram](https://www.instagram.com/sarrang9/)")
 
 # Load the model
 model_filename = "mobilenetV2_P150623.h5"
 model_path = os.path.join(os.getcwd(), model_filename)
-# st.write(f"Model Path: {model_path}")  # Add this line to print the model path
 model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
-# model = tf.keras.models.load_model("Forest_Fire_Monitor\\mobilenetV2_P150623.h5", custom_objects=custom_objects)
+
 # Preprocess input image
 def preprocess_image(img_path):
+    """
+    Preprocess the input image.
+
+    Parameters:
+    - img_path (str): Path to the image file.
+
+    Returns:
+    - preprocessed_img (numpy.ndarray): Preprocessed image array.
+    """
     img = image.load_img(img_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
@@ -68,64 +75,30 @@ def preprocess_image(img_path):
 
 # Make individual predictions
 def make_prediction(img_path):
+    """
+    Make predictions for the input image.
+
+    Parameters:
+    - img_path (str): Path to the image file.
+
+    Returns:
+    - predicted_class (str): Predicted class ('no fire' or 'fire').
+    - confidence (float): Confidence level of the prediction.
+    """
     preprocessed_img = preprocess_image(img_path)
     predictions = model.predict(preprocessed_img)
-    # Modify the code below based on your specific class labels
-    class_names = ['no fire', 'fire']  # Replace with your own class names
+    class_names = ['no fire', 'fire']
     predicted_class = class_names[np.argmax(predictions)]
     confidence = np.max(predictions) * 100
-    # Determine if alarm should be played
-    play_alarm_flag = (predicted_class == 'fire')
-
     return predicted_class, confidence
-    # return predicted_class, confidence
 
-
-
-
-# Initialize pygame.mixer
-# pygame.mixer.init()
-from io import BytesIO
-def play_alarm():
-    try:
-        # Initialize pygame.mixer if not already initialized
-        if not pygame.mixer.get_init():
-            pygame.mixer.init()
-
-        # Load the alarm sound
-        pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
-
-        # Specify the desired audio device (replace 'your_audio_device_name')
-        pygame.mixer.music.set_endevent(pygame.USEREVENT)
-        pygame.mixer.music.set_endevent(pygame.USEREVENT)
-
-        # Play the alarm sound
-        # pygame.mixer.music.play()
-
-    except pygame.error as e:
-        st.warning(f"Error playing alarm: {e}")
-
-# def play_alarm():
-#     try:
-#         # Initialize pygame.mixer if not already initialized
-#         if not pygame.mixer.get_init():
-#             pygame.mixer.init()
-
-#         pygame.mixer.music.load("Forest_Fire_Monitor/alarm.mp3")
-#         pygame.mixer.music.play()
-#     except pygame.error as e:
-#         st.warning(f"Error playing alarm: {e}")
-
-
-# def play_alarm():
-#     pygame.mixer.init()
-#     pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
-#     pygame.mixer.music.play()
 def main():
-
+    """
+    Streamlit application main function.
+    """
     st.title('A Deep Learning based approach to detecting forest fires')
 
-    # Add custom CSS styles for background and text color
+    # Custom CSS styles for background and text color
     st.markdown(
         """
         <style>
@@ -179,68 +152,29 @@ def main():
         """,
         unsafe_allow_html=True
     )
+
     uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
-    
-    
 
     if uploaded_file is not None:
-        # Create a temporary file
         with NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file.write(uploaded_file.getvalue())
-
-        # Get the temporary file path
         image_path = temp_file.name
-        # Make prediction
         predicted_class, confidence = make_prediction(image_path)
 
-        if predicted_class == 'fire':
-            # Play alarm sound
-            # play_alarm()
-
         # Display the result
-    st.subheader('Result')
-
-        # Display the image
+        st.subheader('Result')
         st.image(image_path, use_column_width=True, width=300, caption='Uploaded Image')
 
         # Display predicted class and confidence
         if predicted_class == 'fire':
             st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
-            # Add a button to disable the alarm
-            # if st.button('Disable Alarm'):
-            #     pygame.mixer.music.stop()
-        else:
-            st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-        if predicted_class == 'fire':
-            st.markdown("""
-                <style>
-                    @keyframes flash {
-                        0% { background-color: red; }
-                        50% { background-color: white; }
-                        100% { background-color: red; }
-                    }
-                    .flash-background {
-                        animation: flash 1s infinite;
-                    }
-                </style>
-                <div class="flash-background">
-            """, unsafe_allow_html=True)
 
-        
+            # Display a warning symbol (fire symbol)
+            st.warning("🔥 Fire Detected!")
 
-    #     # Display predicted class and confidence
-    # if predicted_class == 'fire':
-    #     st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
-    # else:
-    #     st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
-    #     st.markdown(f'<p class="confidence">Confidence: {confidence:.2f}%</p>', unsafe_allow_html=True)
-    
-    # # if predicted_class == 'fire':
-    # #         # Play alarm sound
-    # #     play_alarm()
-    # if st.button('Disable Alarm'):
-    #     pygame.mixer.music.stop()
-        
+    if st.button('Disable Alarm'):
+        # Placeholder for alarm disabling functionality
+        pass
 
 if __name__ == '__main__':
     main()
