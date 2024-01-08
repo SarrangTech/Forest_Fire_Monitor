@@ -76,7 +76,7 @@ def make_prediction(img_path):
     # Determine if alarm should be played
     play_alarm_flag = (predicted_class == 'fire')
 
-    return predicted_class, confidence, play_alarm_flag
+    return predicted_class, confidence
     # return predicted_class, confidence
 
 
