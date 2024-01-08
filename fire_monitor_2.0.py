@@ -73,22 +73,21 @@ def make_prediction(img_path):
     class_names = ['no fire', 'fire']  # Replace with your own class names
     predicted_class = class_names[np.argmax(predictions)]
     confidence = np.max(predictions) * 100
-    return predicted_class, confidence
+    # Determine if alarm should be played
+    play_alarm_flag = (predicted_class == 'fire')
+
+    return predicted_class, confidence, play_alarm_flag
+    # return predicted_class, confidence
+
+
 
 
 # Initialize pygame.mixer
 # pygame.mixer.init()
-def play_alarm():
+def play_alarm(audio_bytes):
     try:
-        # Load the audio file
-        audio_file = open("Forest_Fire_Monitor\\alarm.mp3", "rb")
-        audio_bytes = audio_file.read()
-
         # Display the audio player in Streamlit
         st.audio(audio_bytes, format="audio/mp3", start_time=0, autoplay=True)
-        
-        # Allow time for the audio to play
-        time.sleep(5)
     except Exception as e:
         st.warning(f"Error playing alarm: {e}")
 
@@ -156,6 +155,7 @@ def main():
         unsafe_allow_html=True
     )
     uploaded_file = st.file_uploader('Upload an image', type=['jpg', 'jpeg', 'png'])
+    
 
     if uploaded_file is not None:
         # Create a temporary file
@@ -166,7 +166,11 @@ def main():
         image_path = temp_file.name
 
         # Make prediction
-        predicted_class, confidence = make_prediction(image_path)
+        # predicted_class, confidence = make_prediction(image_path)
+        predicted_class, confidence, play_alarm_flag = make_prediction(image_path)
+         if play_alarm_flag:
+            # Play alarm sound and display audio player
+            play_alarm(audio_file)
     
     # ...
     if predicted_class == 'fire':
@@ -185,6 +189,7 @@ def main():
     else:
         st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="confidence">Confidence: {confidence:.2f}%</p>', unsafe_allow_html=True)
+    
     # if predicted_class == 'fire':
     #         # Play alarm sound
     #     play_alarm()
