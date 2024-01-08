@@ -10,7 +10,7 @@ import os
 import time
 from tempfile import NamedTemporaryFile
 
-disable_alarm_button = st.button('Disable Alarm')
+
 # from aboutme import show_about_me
 custom_objects = {'optimizer_experimental.Optimizer': tf.optimizers.Adam}
 st.set_page_config(page_icon="fire_favicon.ico")
@@ -101,7 +101,6 @@ def play_alarm():
 #     pygame.mixer.init()
 #     pygame.mixer.music.load("Forest_Fire_Monitor\\alarm.mp3")
 #     pygame.mixer.music.play()
-
 def main():
 
     st.title('A Deep Learning based approach to detecting forest fires')
@@ -188,11 +187,16 @@ def main():
         if predicted_class == 'fire':
             st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
             # Add a button to disable the alarm
-            if st.button('Disable Alarm'):
-                pygame.mixer.music.stop()
+            # if st.button('Disable Alarm'):
+            #     pygame.mixer.music.stop()
         else:
             st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
+        # Add a button to disable the alarm
+disable_alarm_button = st.button('Disable Alarm')
 
+# Logic to disable the alarm when the button is clicked
+if disable_alarm_button:
+    pygame.mixer.music.stop()
     #     # Display predicted class and confidence
     # if predicted_class == 'fire':
     #     st.markdown(f'<p class="predicted-class predicted-class-fire">{predicted_class}</p>', unsafe_allow_html=True)
