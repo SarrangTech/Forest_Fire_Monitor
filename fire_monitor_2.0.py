@@ -75,8 +75,15 @@ def make_prediction(img_path):
     confidence = np.max(predictions) * 100
     return predicted_class, confidence
 
+import time
+
 def play_alarm():
     try:
+        # Check if a valid audio device is available
+        if pygame.mixer.get_init() is None:
+            st.warning("No audio device found. Unable to play alarm.")
+            return
+
         # Initialize pygame.mixer if not already initialized
         if not pygame.mixer.get_init():
             pygame.mixer.init()
@@ -91,8 +98,15 @@ def play_alarm():
         audio_file = open("Forest_Fire_Monitor\\alarm.mp3", "rb")
         audio_bytes = audio_file.read()
         st.audio(audio_bytes, format="audio/mp3")
+
+        # Allow time for the audio to play
+        time.sleep(5)
+
+        # Stop the audio
+        pygame.mixer.music.stop()
     except pygame.error as e:
         st.warning(f"Error playing alarm: {e}")
+
 
 
 
