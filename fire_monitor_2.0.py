@@ -189,13 +189,12 @@ def main():
     else:
         st.markdown(f'<p class="predicted-class predicted-class-no-fire">{predicted_class}</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="confidence">Confidence: {confidence:.2f}%</p>', unsafe_allow_html=True)
-    if predicted_class == 'fire':
-            # Play alarm sound
-        play_alarm()
-
-            # Add a button to disable the alarm            
-        if st.button('Disable Alarm'):
-            pygame.mixer.music.stop()
+    # if predicted_class == 'fire':
+    #         # Play alarm sound
+    #     play_alarm()
+    if st.button('Disable Alarm'):
+    pygame.mixer.music.stop()
+        
 
 if __name__ == '__main__':
     main()
